@@ -1,0 +1,28 @@
+plugins {
+    id 'eclipse'
+    id 'idea'
+    id 'application'
+}
+
+repositories {
+   mavenCentral()
+}
+
+dependencies {
+    implementation 'org.springframework.boot:spring-boot:2.6.3'
+    implementation 'org.springframework.boot:spring-boot-autoconfigure:2.6.3'
+    implementation 'org.springframework.boot:spring-boot-starter-web:2.6.3'
+    implementation 'org.springframework:spring-web:5.3.15'
+    
+    testImplementation 'org.springframework.boot:spring-boot-starter-test:2.6.3'
+}
+
+java {
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(11)
+    }
+}
+
+application {
+    mainClass = "org.test.Application"
+}
