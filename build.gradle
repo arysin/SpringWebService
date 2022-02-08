@@ -26,3 +26,7 @@ java {
 application {
     mainClass = "org.test.Application"
 }
+
+test {
+    useJUnitPlatform()
+}
