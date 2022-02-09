@@ -1,34 +1,42 @@
 package org.test;
 
 import java.util.List;
-import java.util.Optional;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.core.JdbcOperations;
+import org.springframework.jdbc.core.namedparam.BeanPropertySqlParameterSource;
+import org.springframework.jdbc.core.namedparam.NamedParameterJdbcOperations;
 import org.springframework.stereotype.Component;
 
 @Component
 public class Repository {
-
-    private List<Entity> items = Stream.of("apple", "orange")
-            .map(n -> new Entity(n, "Label for: "+n))
-            .collect(Collectors.toList());
+    @Autowired
+    private JdbcOperations jdbcTemplate;
+    @Autowired
+    private NamedParameterJdbcOperations namedParameterJdbcTemplate;
     
     public List<Entity> findAll() {
-        return items;
+        return jdbcTemplate.query("select * from entity", new EntityMapper());
+    }
+
+    public Entity findById(String name) {
+        return jdbcTemplate.queryForObject("select * from entity where name=?", new EntityMapper(), name);
     }
 
     public void deleteById(String name) {
-        items.removeIf(e -> e.getName().equals(name));
+        jdbcTemplate.query("delete from entity where name=?", new EntityMapper(), name);
     }
 
-    public Entity save(Entity newEntity) {
-        items.add(newEntity);
+    public Entity create(Entity newEntity) {
+        namedParameterJdbcTemplate.update("insert into entity(name, label) values(:name, :label)", 
+                new BeanPropertySqlParameterSource(newEntity));
         return newEntity;
     }
 
-    public Optional<Entity> findById(String name) {
-        return items.stream().filter(e -> e.getName().equals(name)).findFirst();
+    public Entity update(Entity newEntity) {
+        namedParameterJdbcTemplate.update("upset entity set name=:name, label=:label where name=:name", 
+                new BeanPropertySqlParameterSource(newEntity));
+        return newEntity;
     }
 
 }

@@ -12,7 +12,11 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot:2.6.3'
     implementation 'org.springframework.boot:spring-boot-autoconfigure:2.6.3'
     implementation 'org.springframework.boot:spring-boot-starter-web:2.6.3'
+    implementation 'org.springframework.boot:spring-boot-starter-jdbc:2.6.3'
     implementation 'org.springframework:spring-web:5.3.15'
+    implementation 'org.springframework:spring-jdbc:5.3.15'
+    implementation 'com.h2database:h2:2.1.210'
+
     
     testImplementation 'org.springframework.boot:spring-boot-starter-test:2.6.3'
 }

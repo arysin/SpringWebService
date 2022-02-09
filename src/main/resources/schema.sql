@@ -1,0 +1,4 @@
+CREATE TABLE entity(
+    NAME VARCHAR(255),
+    LABEL VARCHAR(1024)
+);
