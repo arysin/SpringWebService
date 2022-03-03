@@ -23,7 +23,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 
 @SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT)
-public class ApplicationTest {
+public class RootControllerTest {
     @LocalServerPort
     private int port;
     @Autowired
@@ -41,15 +41,21 @@ public class ApplicationTest {
     
 
     @Test
-    public void testGet() throws Exception {
+    public void testGetList() throws Exception {
         String resp = restTemplate.getForObject(baseUrl, String.class);
         List<Entity> list = objectMapper.readValue(resp, new TypeReference<List<Entity>>() {});
         assertEquals(Arrays.asList(new Entity("apple"), new Entity("orange")), list);
-        
+    }
+    
+    @Test
+    public void testGetOne() throws Exception {
         String name = "orange";
         Entity orange = restTemplate.getForObject(baseUrl + "/" + name, Entity.class);
         assertEquals(new Entity(name), orange);
+    }
 
+    @Test
+    public void testGetNotFound() throws Exception {
         try {
             String neName = "non_existing";
             restTemplate.getForObject(baseUrl + "/" + neName, Entity.class);
@@ -61,10 +67,11 @@ public class ApplicationTest {
     }
 
     @Test
-    public void testPost() throws Exception {
+    public void testCreate() throws Exception {
         String name = "pineapple";
-        Entity orange = this.restTemplate.postForObject(baseUrl, new Entity(name), Entity.class);
-        assertEquals(new Entity(name), orange);
+        Entity pineapple = this.restTemplate.postForObject(baseUrl, new Entity(name), Entity.class);
+        
+        assertEquals(new Entity(name), pineapple);
 
         String resp = this.restTemplate.getForObject(baseUrl, String.class);
         List<Entity> list = objectMapper.readValue(resp, new TypeReference<List<Entity>>() {});

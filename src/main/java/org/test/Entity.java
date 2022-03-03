@@ -14,7 +14,6 @@ public class Entity {
     }
     public Entity(String name) {
         this.name = name;
-        this.label = "Label for: " + name;
     }
     public String getLabel() {
         return label;
